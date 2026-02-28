@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Simulator | MatchR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="simulator-container" class="glass-card">
+            <div id="sim-content">
+                <p class="tagline">SIMULATOR ACTIVE</p>
+                <h2 id="sim-scenario-title" style="margin-bottom: 1rem;">Welcome to the Future</h2>
+                <p id="sim-scenario-desc" class="description" style="margin-bottom: 2rem;">
+                    Preparing your personalized career scenario...
+                </p>
+                <div id="choices-container" class="options-grid">
+                    <!-- Choices injected here -->
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <button onclick="restartSimulator()" class="btn-primary"
+                style="background: var(--glass-bg); border: 1px solid var(--glass-border);">Restart Simulator</button>
+            <br><br>
+            <a href="result.html" style="color: var(--text-muted); text-decoration: none;">Back to Dashboard</a>
+        </div>
+    </div>
+
+    <script>
+        const simulationData = {
+            technology: {
+                scenario: "You are leading the deployment of a city-wide AI traffic optimization system. A glitch is detected that prioritizes emergency vehicles but causes 30% more congestion for public transit.",
+                choices: [
+                    { text: "Fix the glitch immediately, even if it delays the launch by a week.", outcome: "Management is frustrated with the delay, but the public praises your commitment to equity." },
+                    { text: "Launch anyway and push a patch overnight to minimize visibility.", outcome: "The system launches on time, but transit groups file a complaint about the temporary bias." },
+                    { text: "Implement a hybrid solution that balances both, reducing emergency speed slightly.", outcome: "A balanced success! Both metrics stay within acceptable limits, though neither is perfectly optimized." }
+                ]
+            },
+            business: {
+                scenario: "A major competitor has just launched an AI-driven pricing tool that is undercutting your firm. Your board wants an aggressive response.",
+                choices: [
+                    { text: "Pivot to a 'Human-First' premium service model with higher pricing.", outcome: "You lose 15% of price-sensitive customers but triple the loyalty of high-value clients." },
+                    { text: "Fast-track your own AI tool by cutting 20% of the R&D budget from other products.", outcome: "You catch up quickly, but internal morale drops due to the budget cuts." },
+                    { text: "Form a strategic partnership with the competitor to integrate your systems.", outcome: "The market is stunned. You create a powerhouse monopoly that faces regulatory scrutiny but dominates profits." }
+                ]
+            },
+            design: {
+                scenario: "Your team is designing a new interface for a neural-link VR system. Users are reporting slight dizziness after 2 hours of use.",
+                choices: [
+                    { text: "Redesign the color palette to more muted, calming tones.", outcome: "Dizziness drops by 40%, but some users find the aesthetic less 'exciting'." },
+                    { text: "Add a 'Soft-Focus' mode that users can toggle on/off.", outcome: "A great design compromise. Users appreciate the control, and the core aesthetic is preserved." },
+                    { text: "Ignore the reports and mark it as 'Adjustment Period' in the manual.", outcome: "Sales are initially strong, but a viral negative review causes a PR crisis 3 months later." }
+                ]
+            },
+            medical: {
+                scenario: "You have limited resources for a new biotech treatment. You can either focus on a common ailment or a rare condition.",
+                choices: [
+                    { text: "Focus on the common ailment to help millions of people.", outcome: "The project is a massive commercial success and improves many lives, but rare disease research stalls." },
+                    { text: "Focus on the rare condition which has no existing cure.", outcome: "You become a pioneer in the field. Funding is harder to get, but your impact is historic." },
+                    { text: "Develop a platform that allows researchers to tackle both using shared data.", outcome: "Innovation at its finest! It takes longer to build, but you revolutionize how medical research is done." }
+                ]
+            }
+        };
+
+        function loadScene() {
+            const data = JSON.parse(localStorage.getItem('matchr_result'));
+            const category = data ? data.category : 'technology';
+            const scene = simulationData[category];
+
+            document.getElementById('sim-scenario-title').innerText = `Role: ${data.title}`;
+            document.getElementById('sim-scenario-desc').innerText = scene.scenario;
+
+            const container = document.getElementById('choices-container');
+            container.innerHTML = '';
+
+            scene.choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = choice.text;
+                btn.onclick = () => showOutcome(choice.outcome);
+                container.appendChild(btn);
+            });
+        }
+
+        function showOutcome(outcome) {
+            const content = document.getElementById('sim-content');
+            content.style.opacity = '0';
+
+            setTimeout(() => {
+                content.innerHTML = `
+                    <p class="tagline">CONSEQUENCE</p>
+                    <h2 style="margin-bottom: 2rem;">Decision Impact</h2>
+                    <div class="glass-card" style="background: rgba(255,255,255,0.02); border-color: var(--primary);">
+                        <p class="description" style="color: var(--text-white); font-style: italic;">"${outcome}"</p>
+                    </div>
+                    <div style="margin-top: 3rem;">
+                        <button onclick="restartSimulator()" class="btn-primary">Try Another Choice</button>
+                    </div>
+                `;
+                content.style.opacity = '1';
+                content.style.transition = 'opacity 0.5s ease';
+            }, 500);
+        }
+
+        function restartSimulator() {
+            window.location.reload();
+        }
+
+        document.addEventListener('DOMContentLoaded', loadScene);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "matchr",
+  "version": "1.0.0",
+  "description": "Smart Career Matching Platform",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "author": "Antigravity",
+  "license": "MIT"
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatchR | Your Recommendation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="glass-card result-header" style="text-align: center; margin-bottom: 2rem;">
+            <p class="tagline">YOUR IDEAL CAREER MATCH</p>
+            <h2 id="career-title" class="career-title">Analyzing...</h2>
+            <p id="career-overview" class="description" style="margin: 0 auto 2rem auto;">
+                Gathering insights about your professional destiny in 2026.
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <p class="stat-label">Average Salary</p>
+                <p id="stat-salary" class="stat-value">Loading...</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-label">Growth Outlook</p>
+                <p id="stat-growth" class="stat-value">Loading...</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-label">Essential Skills</p>
+                <p id="stat-skills" class="stat-value">Loading...</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="simulator.html" class="btn-primary">Enter Career Simulator</a>
+            <br><br>
+            <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">Back to
+                Home</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const data = JSON.parse(localStorage.getItem('matchr_result'));
+            if (!data) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            document.getElementById('career-title').innerText = data.title;
+            document.getElementById('career-overview').innerText = data.overview;
+            document.getElementById('stat-salary').innerText = data.salary;
+            document.getElementById('stat-growth').innerText = data.growth;
+            document.getElementById('stat-skills').innerText = data.skills.join(', ');
+        });
+    </script>
+</body>
+
+</html>
